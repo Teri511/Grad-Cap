@@ -5,6 +5,8 @@
 
 #include <SmartMatrix3.h>
 #include "kris.c"
+#include "ub.c"
+#include "foodbeer.c"
 #include "gimpbitmap.h"
 
 #define COLOR_DEPTH 24                  // known working: 24, 48 - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24
@@ -55,32 +57,52 @@ void setup() {
   matrix.addLayer(&indexedLayer); 
   matrix.begin();
 
-  matrix.setBrightness(defaultBrightness);
+  matrix.setBrightness(defaultBrightness/2);
 
   scrollingLayer.setOffsetFromTop(defaultScrollOffset);
 
   backgroundLayer.enableColorCorrection(true);
+  backgroundLayer.fillScreen({0,0,0});
+  
 }
-// the loop() method runs over and over again,
-// as long as the board has power
+
+void krisani(){
+  drawBitmap(0,0,&kris);
+  backgroundLayer.swapBuffers();
+  scrollingLayer.setColor({0x00, 0x00, 0x00});
+  scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setSpeed(40);
+  scrollingLayer.setFont(font6x10);
+  scrollingLayer.start("Read the Documentation", 1); 
+}
+
+void ubani(){
+  drawBitmap(0,15,&ub);
+  backgroundLayer.swapBuffers();
+  scrollingLayer.setColor({0x00, 0x00, 0xff});
+  scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setSpeed(40);
+  scrollingLayer.setFont(font6x10);
+  scrollingLayer.start("Stop Taking My Money!!!", 1); 
+}
+
+void foodbeerani(){
+  drawBitmap(0,0,&foodbeer);
+  backgroundLayer.swapBuffers();
+  scrollingLayer.setColor({0x00, 0x00, 0x00});
+  scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setSpeed(40);
+  scrollingLayer.setFont(font6x10);
+  scrollingLayer.start("Stronger CSE at UB", 1); 
+}
+
 void loop() {
-    int i, j;
-    unsigned long currentMillis;
 
     // clear screen
-    backgroundLayer.fillScreen(defaultBackgroundColor);
-    backgroundLayer.swapBuffers();
+    //backgroundLayer.fillScreen(defaultBackgroundColor);
+    //backgroundLayer.swapBuffers();
 
-    // "SmartMatrix Demo"
-    scrollingLayer.setColor({0xff, 0xff, 0xff});
-    scrollingLayer.setMode(wrapForward);
-    scrollingLayer.setSpeed(40);
-    scrollingLayer.setFont(font6x10);
-    scrollingLayer.start("SmartMatrix3 has piss poor documentation", 1);
-
-    //backgroundLayer.fillScreen({0,0,0});
-    drawBitmap(0,0,&kris);
-    backgroundLayer.swapBuffers();
+    krisani();
     
     delay(10000);
 
