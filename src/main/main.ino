@@ -4,10 +4,17 @@
 */
 
 #include <SmartMatrix3.h>
+
+#include "gimpbitmap.h"
 #include "kris.c"
 #include "ub.c"
+#include "pacframe0.c"
+#include "pacframe1.c"
+#include "pacframe2.c"
+#include "rghostframe0.c"
+#include "rghostframe1.c"
 #include "foodbeer.c"
-#include "gimpbitmap.h"
+#include "slackbot.c"
 
 #define COLOR_DEPTH 24                  // known working: 24, 48 - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24
 const uint8_t kMatrixWidth = 32;        // known working: 32, 64, 96, 128
@@ -71,15 +78,28 @@ void krisani(){
   backgroundLayer.swapBuffers();
   scrollingLayer.setColor({0x00, 0x00, 0x00});
   scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setOffsetFromTop(4);
   scrollingLayer.setSpeed(40);
   scrollingLayer.setFont(font6x10);
   scrollingLayer.start("Read the Documentation", 1); 
 }
 
+void spaghettani(){
+  drawBitmap(0,0,&spaghett);
+  backgroundLayer.swapBuffers();
+  scrollingLayer.setColor({0xff, 0xff, 0xff});
+  scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setOffsetFromTop(11);
+  scrollingLayer.setSpeed(40);
+  scrollingLayer.setFont(font6x10);
+  scrollingLayer.start("SPAGHETT, Spooked ya!", 1); 
+}
+
 void ubani(){
-  drawBitmap(0,15,&ub);
+  drawBitmap(0,0,&ub);
   backgroundLayer.swapBuffers();
   scrollingLayer.setColor({0x00, 0x00, 0xff});
+  scrollingLayer.setOffsetFromTop(17);
   scrollingLayer.setMode(wrapForward);
   scrollingLayer.setSpeed(40);
   scrollingLayer.setFont(font6x10);
@@ -89,11 +109,38 @@ void ubani(){
 void foodbeerani(){
   drawBitmap(0,0,&foodbeer);
   backgroundLayer.swapBuffers();
-  scrollingLayer.setColor({0x00, 0x00, 0x00});
+  scrollingLayer.setColor({0xff, 0xff, 0xff});
   scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setOffsetFromTop(4);
   scrollingLayer.setSpeed(40);
   scrollingLayer.setFont(font6x10);
   scrollingLayer.start("Stronger CSE at UB", 1); 
+}
+
+void pacani(){
+
+  for(int i=0;i<64;i++){
+    switch(i%4){
+      case 0:
+      drawBitmap(32-i,0,&pacframe0);
+      drawBitmap(32+16-i,0,&rghostframe0);
+      break;
+      case 1:
+      drawBitmap(32-i,0,&pacframe1);
+      drawBitmap(32+16-i,0,&rghostframe1);
+      break;
+      case 2:
+      drawBitmap(32-i,0,&pacframe2);
+      drawBitmap(32+16-i,0,&rghostframe0);
+      break;
+      case 3:
+      drawBitmap(32-i,0,&pacframe1);
+      drawBitmap(32+16-i,0,&rghostframe1);
+      break;
+    } 
+    backgroundLayer.swapBuffers();
+    delay(50);
+  }
 }
 
 void loop() {
@@ -102,8 +149,18 @@ void loop() {
     //backgroundLayer.fillScreen(defaultBackgroundColor);
     //backgroundLayer.swapBuffers();
 
-    krisani();
-    
-    delay(10000);
+    //ubani();
+    //delay(6000);
 
+    //foodbeerani();
+    //delay(6000);
+
+    //krisani();
+    //delay(6000);
+
+    //spaghettani();
+    //delay(6000);
+
+    pacani();
+    delay(500);
 }

@@ -1,4 +1,4 @@
-/* GIMP RGB C-Source image dump (kris.c) */
+/* GIMP RGB C-Source image dump (ub.c) */
 
 #include "gimpbitmap.h"
 
