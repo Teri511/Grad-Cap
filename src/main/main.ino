@@ -5,28 +5,28 @@
 
 #include <SmartMatrix3.h>
 
-#include "gimpbitmap.h"
-#include "kris.c"
-#include "ub.c"
-#include "pacframe0.c"
-#include "pacframe1.c"
-#include "pacframe2.c"
-#include "linkframe0.c"
-#include "linkframe1.c"
-#include "octoframe0.c"
-#include "octoframe1.c"
-#include "mobframe0.c"
-#include "mobframe1.c"
-#include "rghostframe0.c"
-#include "rghostframe1.c"
-#include "pghostframe0.c"
-#include "pghostframe1.c"
-#include "bghostframe0.c"
-#include "bghostframe1.c"
-#include "oghostframe0.c"
-#include "oghostframe1.c"
-#include "foodbeer.c"
-#include "slackbot.c"
+#include "imgs/gimpbitmap.h"
+#include "imgs/kris.c"
+#include "imgs/ub.c"
+#include "imgs/pacframe0.c"
+#include "imgs/pacframe1.c"
+#include "imgs/pacframe2.c"
+#include "imgs/linkframe0.c"
+#include "imgs/linkframe1.c"
+#include "imgs/octoframe0.c"
+#include "imgs/octoframe1.c"
+#include "imgs/mobframe0.c"
+#include "imgs/mobframe1.c"
+#include "imgs/rghostframe0.c"
+#include "imgs/rghostframe1.c"
+#include "imgs/pghostframe0.c"
+#include "imgs/pghostframe1.c"
+#include "imgs/bghostframe0.c"
+#include "imgs/bghostframe1.c"
+#include "imgs/oghostframe0.c"
+#include "imgs/oghostframe1.c"
+#include "imgs/foodbeer.c"
+#include "imgs/slackbot.c"
 
 #define COLOR_DEPTH 24                  // known working: 24, 48 - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24
 const uint8_t kMatrixWidth = 32;        // known working: 32, 64, 96, 128
@@ -82,7 +82,13 @@ void setup() {
 
   backgroundLayer.enableColorCorrection(true);
   backgroundLayer.fillScreen({0,0,0});
-  
+  scrollingLayer.setColor({0xff, 0xff, 0xff});
+  scrollingLayer.setMode(wrapForward);
+  scrollingLayer.setOffsetFromTop(11);
+  scrollingLayer.setSpeed(40);
+  scrollingLayer.setFont(font6x10);
+  scrollingLayer.start("Hullo???", 1); 
+  delay(3000);
 }
 
 void krisani(){
@@ -130,7 +136,7 @@ void foodbeerani(){
 }
 
 void pacani(int ypos){
-
+  backgroundLayer.fillScreen({0,0,0});
   for(int i=0;i<113;i++){
     switch(i%4){
       case 0:
@@ -215,14 +221,14 @@ void loop() {
     //foodbeerani();
     //delay(6000);
 
-    //krisani();
-    //delay(6000);
+    krisani();
+    delay(6000);
 
-    //spaghettani();
-    //delay(6000);
+    spaghettani();
+    delay(6000);
 
-    //pacani(7);
-    //delay(500);
+    pacani(7);
+    delay(500);
 
     linkani(8);
     delay(500);
