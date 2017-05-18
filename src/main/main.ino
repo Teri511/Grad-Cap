@@ -11,8 +11,20 @@
 #include "pacframe0.c"
 #include "pacframe1.c"
 #include "pacframe2.c"
+#include "linkframe0.c"
+#include "linkframe1.c"
+#include "octoframe0.c"
+#include "octoframe1.c"
+#include "mobframe0.c"
+#include "mobframe1.c"
 #include "rghostframe0.c"
 #include "rghostframe1.c"
+#include "pghostframe0.c"
+#include "pghostframe1.c"
+#include "bghostframe0.c"
+#include "bghostframe1.c"
+#include "oghostframe0.c"
+#include "oghostframe1.c"
 #include "foodbeer.c"
 #include "slackbot.c"
 
@@ -64,7 +76,7 @@ void setup() {
   matrix.addLayer(&indexedLayer); 
   matrix.begin();
 
-  matrix.setBrightness(defaultBrightness/2);
+  matrix.setBrightness(defaultBrightness/4);
 
   scrollingLayer.setOffsetFromTop(defaultScrollOffset);
 
@@ -117,27 +129,75 @@ void foodbeerani(){
   scrollingLayer.start("Stronger CSE at UB", 1); 
 }
 
-void pacani(){
+void pacani(int ypos){
 
-  for(int i=0;i<64;i++){
+  for(int i=0;i<113;i++){
     switch(i%4){
       case 0:
-      drawBitmap(32-i,0,&pacframe0);
-      drawBitmap(32+16-i,0,&rghostframe0);
+      drawBitmap(32-i,ypos,&pacframe0);
+      drawBitmap(32+16-i,ypos,&rghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 1:
-      drawBitmap(32-i,0,&pacframe1);
-      drawBitmap(32+16-i,0,&rghostframe1);
+      drawBitmap(32-i,ypos,&pacframe1);
+      drawBitmap(32+16-i,ypos,&rghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 2:
-      drawBitmap(32-i,0,&pacframe2);
-      drawBitmap(32+16-i,0,&rghostframe0);
+      drawBitmap(32-i,ypos,&pacframe2);
+      drawBitmap(32+16-i,ypos,&rghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
       case 3:
-      drawBitmap(32-i,0,&pacframe1);
-      drawBitmap(32+16-i,0,&rghostframe1);
+      drawBitmap(32-i,ypos,&pacframe1);
+      drawBitmap(32+16-i,ypos,&rghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
     } 
+    backgroundLayer.swapBuffers();
+    delay(50);
+  }
+}
+
+void linkani(int ypos){
+  backgroundLayer.fillScreen({128,224,16});
+  rgb24 color;
+  color.red=128;
+  color.green=224;
+  color.blue=16;
+  for(int i=0;i<113;i++){
+    switch(i%4){
+      case 0:
+      drawBitmap(i-16,ypos,&linkframe0);
+      drawBitmap(i-32,ypos,&octoframe0);
+      drawBitmap(i-57,ypos,&mobframe0);
+      break;
+      case 1:
+      drawBitmap(i-16,ypos,&linkframe0);
+      drawBitmap(i-32,ypos,&octoframe0);
+      drawBitmap(i-57,ypos,&mobframe0);
+      break;
+      case 2:
+      drawBitmap(i-16,ypos,&linkframe1);
+      drawBitmap(i-32,ypos,&octoframe1);
+      drawBitmap(i-57,ypos,&mobframe1);
+      break;
+      case 3:
+      drawBitmap(i-16,ypos,&linkframe1);
+      drawBitmap(i-32,ypos,&octoframe1);
+      drawBitmap(i-57,ypos,&mobframe1);
+      break;
+    }
+    //x,y1,y2,color
+    backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color); 
     backgroundLayer.swapBuffers();
     delay(50);
   }
@@ -161,6 +221,9 @@ void loop() {
     //spaghettani();
     //delay(6000);
 
-    pacani();
+    //pacani(7);
+    //delay(500);
+
+    linkani(8);
     delay(500);
 }
