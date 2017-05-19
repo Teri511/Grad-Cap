@@ -4,6 +4,7 @@
 */
 
 #include <SmartMatrix3.h>
+#include <FastLED.h>
 
 #include "imgs/gimpbitmap.h"
 #include "imgs/kris.c"
@@ -38,6 +39,14 @@ const uint8_t kMatrixOptions = (SMARTMATRIX_OPTIONS_NONE);      // see http://do
 const uint8_t kBackgroundLayerOptions = (SM_BACKGROUND_OPTIONS_NONE);
 const uint8_t kScrollingLayerOptions = (SM_SCROLLING_OPTIONS_NONE);
 const uint8_t kIndexedLayerOptions = (SM_INDEXED_OPTIONS_NONE);
+const uint16_t scale = 20;
+uint8_t noise[kMatrixWidth][kMatrixHeight];
+static uint16_t x;
+static uint16_t y;
+static uint16_t z;
+const uint16_t speed = 2;
+
+
 
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, kMatrixWidth, kMatrixHeight, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(backgroundLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kBackgroundLayerOptions);
@@ -62,6 +71,16 @@ void drawBitmap(int16_t x, int16_t y, const gimp32x32bitmap* bitmap) {
       backgroundLayer.drawPixel(x + j, y + i, pixel);
     }
   }
+}
+void fillnoise8() {
+  for(int i = 0; i < kMatrixWidth; i++) {
+    int ioffset = scale * i;
+    for(int j = 0; j < kMatrixHeight; j++) {
+      int joffset = scale * j;
+      noise[i][j] = inoise8(x + ioffset,y + joffset,z);
+    }
+  }
+  z += speed;
 }
 
 // the setup() method runs once, when the sketch starts
@@ -137,35 +156,35 @@ void foodbeerani(){
 
 void pacani(int ypos){
   backgroundLayer.fillScreen({0,0,0});
-  for(int i=0;i<113;i++){
+  for(int i=0;i<64;i++){
     switch(i%4){
       case 0:
       drawBitmap(32-i,ypos,&pacframe0);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      drawBitmap(32+32-i,ypos,&pghostframe0);
-      drawBitmap(32+48-i,ypos,&bghostframe0);
-      drawBitmap(32+64-i,ypos,&oghostframe0);
+      //drawBitmap(32+32-i,ypos,&pghostframe0);
+      //drawBitmap(32+48-i,ypos,&bghostframe0);
+      //drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 1:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      drawBitmap(32+32-i,ypos,&pghostframe0);
-      drawBitmap(32+48-i,ypos,&bghostframe0);
-      drawBitmap(32+64-i,ypos,&oghostframe0);
+      //drawBitmap(32+32-i,ypos,&pghostframe0);
+      //drawBitmap(32+48-i,ypos,&bghostframe0);
+      //drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 2:
       drawBitmap(32-i,ypos,&pacframe2);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      drawBitmap(32+32-i,ypos,&pghostframe1);
-      drawBitmap(32+48-i,ypos,&bghostframe1);
-      drawBitmap(32+64-i,ypos,&oghostframe1);
+      //drawBitmap(32+32-i,ypos,&pghostframe1);
+      //drawBitmap(32+48-i,ypos,&bghostframe1);
+      //drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
       case 3:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      drawBitmap(32+32-i,ypos,&pghostframe1);
-      drawBitmap(32+48-i,ypos,&bghostframe1);
-      drawBitmap(32+64-i,ypos,&oghostframe1);
+      //drawBitmap(32+32-i,ypos,&pghostframe1);
+      //drawBitmap(32+48-i,ypos,&bghostframe1);
+      //drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
     } 
     backgroundLayer.swapBuffers();
@@ -179,34 +198,61 @@ void linkani(int ypos){
   color.red=128;
   color.green=224;
   color.blue=16;
-  for(int i=0;i<113;i++){
+  for(int i=0;i<65;i++){
     switch(i%4){
       case 0:
       drawBitmap(i-16,ypos,&linkframe0);
       drawBitmap(i-32,ypos,&octoframe0);
-      drawBitmap(i-57,ypos,&mobframe0);
+      //drawBitmap(i-57,ypos,&mobframe0);
       break;
       case 1:
       drawBitmap(i-16,ypos,&linkframe0);
       drawBitmap(i-32,ypos,&octoframe0);
-      drawBitmap(i-57,ypos,&mobframe0);
+      //drawBitmap(i-57,ypos,&mobframe0);
       break;
       case 2:
       drawBitmap(i-16,ypos,&linkframe1);
       drawBitmap(i-32,ypos,&octoframe1);
-      drawBitmap(i-57,ypos,&mobframe1);
+      //drawBitmap(i-57,ypos,&mobframe1);
       break;
       case 3:
       drawBitmap(i-16,ypos,&linkframe1);
       drawBitmap(i-32,ypos,&octoframe1);
-      drawBitmap(i-57,ypos,&mobframe1);
+      //drawBitmap(i-57,ypos,&mobframe1);
       break;
     }
     //x,y1,y2,color
-    backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color); 
+    //uncomment for moblin ani cleanup
+    //backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color); 
+    backgroundLayer.drawFastVLine(i-33,ypos,ypos+16,color);
     backgroundLayer.swapBuffers();
     delay(50);
   }
+}
+
+void lavalampani(int total_runs){
+
+      for(int runs=0; runs < total_runs; runs++){
+    rgb24 *buffer = backgroundLayer.backBuffer();
+
+    static uint8_t ihue=0;
+    fillnoise8();
+    for(int i = 0; i < kMatrixWidth; i++) {
+      for(int j = 0; j < kMatrixHeight; j++) {
+        // We use the value at the (i,j) coordinate in the noise
+        // array for our brightness, and the flipped value from (j,i)
+        // for our pixel's hue.
+        buffer[kMatrixWidth*j + i] = CRGB(CHSV(noise[j][i],255,noise[i][j]));
+
+          // You can also explore other ways to constrain the hue used, like below
+         //buffer[kMatrixHeight*j + i] = CRGB(CHSV(ihue + (noise[j][i]>>2),255,noise[i][j]));
+      }
+    }
+    ihue+=1;
+    backgroundLayer.swapBuffers(false);
+  }
+  backgroundLayer.fillScreen({0,0,0}); 
+  backgroundLayer.swapBuffers();
 }
 
 void loop() {
@@ -220,6 +266,8 @@ void loop() {
 
     //foodbeerani();
     //delay(6000);
+
+    lavalampani(1000);
 
     krisani();
     delay(6000);
