@@ -166,7 +166,7 @@ void foodbeerani(){
 
 void pokemon(){
   drawBitmap(0,0,&pokemonbg);
-  for(int i=0;i<128;i++){
+  for(int i=0;i<128-30;i++){
     switch(i%4){
       case 0:
       drawBitmap(32-i,8,&ash0);
@@ -200,7 +200,7 @@ void pokemon(){
 
 void pacani(int ypos){
   backgroundLayer.fillScreen({0,0,0});
-  for(int i=0;i<64;i++){
+  for(int i=0;i<128;i++){
     switch(i%4){
       case 0:
       drawBitmap(32-i,ypos,&pacframe0);
@@ -312,34 +312,39 @@ void loop() {
     //delay(6000);
 
     //lavalampani(1000);
-    //drawBitmap(0,0,&cseatub);
-    //backgroundLayer.swapBuffers();
-    //delay(6000);
+    
+    drawBitmap(0,0,&cseatub);
+    backgroundLayer.swapBuffers();
+    delay(3000);
 
-//    krisani();
-//    delay(6000);
-//
-//    drawBitmap(0,0,&cse50);
-//    delay(6000);
-//
-//    spaghettani();
-//    delay(6000);
-//
-//    drawBitmap(0,0,&cse50);
-//    delay(6000);
-//    
-//    pacani(7);
-//    delay(500);
-//
-//    drawBitmap(0,0,&cse50);
-//    delay(6000);
-//
-//    linkani(8);
-//    delay(500);
-//
-//    drawBitmap(0,0,&cse50);
-//    delay(6000);
-//
-      pokemon();
-      delay(500);
+    krisani();
+    delay(6000);
+
+    drawBitmap(0,0,&cseatub);
+    backgroundLayer.swapBuffers();
+    delay(3000);
+
+    spaghettani();
+    delay(6000);
+
+    drawBitmap(0,0,&cseatub);
+    backgroundLayer.swapBuffers();
+    delay(3000);
+    
+    pacani(7);
+    delay(500);
+
+    drawBitmap(0,0,&cseatub);
+    backgroundLayer.swapBuffers();
+    delay(3000);
+
+    linkani(8);
+    delay(500);
+    
+    drawBitmap(0,0,&cseatub);
+    backgroundLayer.swapBuffers();
+    delay(3000);
+    
+    pokemon();
+    delay(500);
 }
