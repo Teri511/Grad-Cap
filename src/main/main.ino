@@ -28,6 +28,16 @@
 #include "imgs/oghostframe1.c"
 #include "imgs/foodbeer.c"
 #include "imgs/slackbot.c"
+#include "imgs/pikachu0.c"
+#include "imgs/pikachu1.c"
+#include "imgs/ash0.c"
+#include "imgs/ash1.c"
+#include "imgs/pokemonbg.c"
+#include "imgs/CSE50.c"
+#include "imgs/jesse0.c"
+#include "imgs/jesse1.c"
+#include "imgs/james0.c"
+#include "imgs/james1.c"
 
 #define COLOR_DEPTH 24                  // known working: 24, 48 - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24
 const uint8_t kMatrixWidth = 32;        // known working: 32, 64, 96, 128
@@ -154,6 +164,40 @@ void foodbeerani(){
   scrollingLayer.start("Stronger CSE at UB", 1); 
 }
 
+void pokemon(){
+  drawBitmap(0,0,&pokemonbg);
+  for(int i=0;i<128;i++){
+    switch(i%4){
+      case 0:
+      drawBitmap(32-i,8,&ash0);
+      drawBitmap(32+16-i,8,&pikachu0);
+      drawBitmap(32+36-i,8,&jesse0);
+      drawBitmap(32+52-i,8,&james1);
+      break;
+      case 1:
+      drawBitmap(32-i,8,&ash1);
+      drawBitmap(32+16-i,8,&pikachu1);
+      drawBitmap(32+36-i,8,&jesse1);
+      drawBitmap(32+52-i,8,&james0);
+      break;
+      case 2:
+      drawBitmap(32-i,8,&ash0);
+      drawBitmap(32+16-i,8,&pikachu0);
+      drawBitmap(32+36-i,8,&jesse0);
+      drawBitmap(32+52-i,8,&james1);
+      break;
+      case 3:
+      drawBitmap(32-i,8,&ash1);
+      drawBitmap(32+16-i,8,&pikachu1);
+      drawBitmap(32+36-i,8,&jesse1);
+      drawBitmap(32+52-i,8,&james0);
+      break;
+    } 
+    backgroundLayer.swapBuffers();
+    delay(100);
+  }
+}
+
 void pacani(int ypos){
   backgroundLayer.fillScreen({0,0,0});
   for(int i=0;i<64;i++){
@@ -161,30 +205,30 @@ void pacani(int ypos){
       case 0:
       drawBitmap(32-i,ypos,&pacframe0);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      //drawBitmap(32+32-i,ypos,&pghostframe0);
-      //drawBitmap(32+48-i,ypos,&bghostframe0);
-      //drawBitmap(32+64-i,ypos,&oghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 1:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      //drawBitmap(32+32-i,ypos,&pghostframe0);
-      //drawBitmap(32+48-i,ypos,&bghostframe0);
-      //drawBitmap(32+64-i,ypos,&oghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 2:
       drawBitmap(32-i,ypos,&pacframe2);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      //drawBitmap(32+32-i,ypos,&pghostframe1);
-      //drawBitmap(32+48-i,ypos,&bghostframe1);
-      //drawBitmap(32+64-i,ypos,&oghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
       case 3:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      //drawBitmap(32+32-i,ypos,&pghostframe1);
-      //drawBitmap(32+48-i,ypos,&bghostframe1);
-      //drawBitmap(32+64-i,ypos,&oghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
     } 
     backgroundLayer.swapBuffers();
@@ -267,17 +311,35 @@ void loop() {
     //foodbeerani();
     //delay(6000);
 
-    lavalampani(1000);
+    //lavalampani(1000);
+    //drawBitmap(0,0,&cseatub);
+    //backgroundLayer.swapBuffers();
+    //delay(6000);
 
-    krisani();
-    delay(6000);
-
-    spaghettani();
-    delay(6000);
-
-    pacani(7);
-    delay(500);
-
-    linkani(8);
-    delay(500);
+//    krisani();
+//    delay(6000);
+//
+//    drawBitmap(0,0,&cse50);
+//    delay(6000);
+//
+//    spaghettani();
+//    delay(6000);
+//
+//    drawBitmap(0,0,&cse50);
+//    delay(6000);
+//    
+//    pacani(7);
+//    delay(500);
+//
+//    drawBitmap(0,0,&cse50);
+//    delay(6000);
+//
+//    linkani(8);
+//    delay(500);
+//
+//    drawBitmap(0,0,&cse50);
+//    delay(6000);
+//
+      pokemon();
+      delay(500);
 }
