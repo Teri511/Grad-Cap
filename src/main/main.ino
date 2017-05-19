@@ -12,12 +12,22 @@
 #include "imgs/pacframe0.c"
 #include "imgs/pacframe1.c"
 #include "imgs/pacframe2.c"
+#include "imgs/digframe0.c"
+#include "imgs/digframe1.c"
+#include "imgs/pkaframe0.c"
+#include "imgs/pkaframe1.c"
+#include "imgs/fygframe0.c"
+#include "imgs/fygframe1.c"
 #include "imgs/linkframe0.c"
 #include "imgs/linkframe1.c"
 #include "imgs/octoframe0.c"
 #include "imgs/octoframe1.c"
 #include "imgs/mobframe0.c"
 #include "imgs/mobframe1.c"
+#include "imgs/marframe0.c"
+#include "imgs/marframe1.c"
+#include "imgs/gmbframe0.c"
+#include "imgs/gmbframe1.c"
 #include "imgs/rghostframe0.c"
 #include "imgs/rghostframe1.c"
 #include "imgs/pghostframe0.c"
@@ -46,6 +56,25 @@ static uint16_t y;
 static uint16_t z;
 const uint16_t speed = 2;
 
+const int dirtWidth = 15;
+const int dirtHeight = 15;
+uint8_t dirtBitmap[] = {
+            __X_____, _____X__,
+            _____X__, ________,
+            ________, X__X___X,
+            ___X____, _____X__,
+            _____X__, ________,
+            X_______, ________,
+            ________, __X_____,
+            _X______, ________,
+            ____X___, ________,
+            X_______, ________,
+            ________, ________,
+            ________, ________,
+            _X______, ________,
+            ______X_, ____X___,
+            ________, ________,
+        };
 
 
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, kMatrixWidth, kMatrixHeight, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
@@ -156,39 +185,90 @@ void foodbeerani(){
 
 void pacani(int ypos){
   backgroundLayer.fillScreen({0,0,0});
-  for(int i=0;i<64;i++){
+  for(int i=0;i<113;i++){
     switch(i%4){
       case 0:
       drawBitmap(32-i,ypos,&pacframe0);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      //drawBitmap(32+32-i,ypos,&pghostframe0);
-      //drawBitmap(32+48-i,ypos,&bghostframe0);
-      //drawBitmap(32+64-i,ypos,&oghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 1:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe0);
-      //drawBitmap(32+32-i,ypos,&pghostframe0);
-      //drawBitmap(32+48-i,ypos,&bghostframe0);
-      //drawBitmap(32+64-i,ypos,&oghostframe0);
+      drawBitmap(32+32-i,ypos,&pghostframe0);
+      drawBitmap(32+48-i,ypos,&bghostframe0);
+      drawBitmap(32+64-i,ypos,&oghostframe0);
       break;
       case 2:
       drawBitmap(32-i,ypos,&pacframe2);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      //drawBitmap(32+32-i,ypos,&pghostframe1);
-      //drawBitmap(32+48-i,ypos,&bghostframe1);
-      //drawBitmap(32+64-i,ypos,&oghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
       case 3:
       drawBitmap(32-i,ypos,&pacframe1);
       drawBitmap(32+16-i,ypos,&rghostframe1);
-      //drawBitmap(32+32-i,ypos,&pghostframe1);
-      //drawBitmap(32+48-i,ypos,&bghostframe1);
-      //drawBitmap(32+64-i,ypos,&oghostframe1);
+      drawBitmap(32+32-i,ypos,&pghostframe1);
+      drawBitmap(32+48-i,ypos,&bghostframe1);
+      drawBitmap(32+64-i,ypos,&oghostframe1);
       break;
     } 
     backgroundLayer.swapBuffers();
     delay(50);
+  }
+}
+
+void digdugani(int ypos){
+  rgb24 color;
+  color.red=0xff;
+  color.green=0xb8;
+  color.blue=0x00;
+  backgroundLayer.fillScreen({0xf8,0x70,0x00});
+  backgroundLayer.fillRectangle(0, 0, 32, 15, color);
+  backgroundLayer.drawMonoBitmap(0, 16, dirtWidth, dirtHeight, color, dirtBitmap);
+  backgroundLayer.drawMonoBitmap(16, 16, dirtWidth, dirtHeight, color, dirtBitmap);
+  color.red=0xff;
+  color.green=0xff;
+  color.blue=0x00;
+  backgroundLayer.drawMonoBitmap(0, 0, dirtWidth, dirtHeight, color, dirtBitmap);
+  backgroundLayer.drawMonoBitmap(16, 0, dirtWidth, dirtHeight, color, dirtBitmap);
+  color.red=0;
+  color.green=0;
+  color.blue=0;
+  for(int i=-3;i<96;i++){
+    switch(i%4){
+      case 0:
+      drawBitmap(i-16,ypos,&digframe0);
+      drawBitmap(i-32,ypos,&pkaframe0);
+      drawBitmap(i-48,ypos,&fygframe0);
+      break;
+      case 1:
+      drawBitmap(i-16,ypos,&digframe1);
+      drawBitmap(i-32,ypos,&pkaframe0);
+      drawBitmap(i-48,ypos,&fygframe0);
+      break;
+      case 2:
+      drawBitmap(i-16,ypos,&digframe0);
+      drawBitmap(i-32,ypos,&pkaframe1);
+      drawBitmap(i-48,ypos,&fygframe1);
+      break;
+      case 3:
+      drawBitmap(i-16,ypos,&digframe1);
+      drawBitmap(i-32,ypos,&pkaframe1);
+      drawBitmap(i-48,ypos,&fygframe1);
+      break;
+    }
+    //x,y1,y2,color
+    //uncomment for moblin ani cleanup
+    //backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color);
+    backgroundLayer.drawFastVLine(i,ypos+1,ypos+14, color); 
+    backgroundLayer.drawFastVLine(i+1,ypos+3,ypos+12, color); 
+    //backgroundLayer.drawFastVLine(i-33,ypos,ypos+16,color);
+    backgroundLayer.swapBuffers();
+    delay(100);
   }
 }
 
@@ -198,33 +278,66 @@ void linkani(int ypos){
   color.red=128;
   color.green=224;
   color.blue=16;
-  for(int i=0;i<65;i++){
+  for(int i=0;i<96;i++){
     switch(i%4){
       case 0:
       drawBitmap(i-16,ypos,&linkframe0);
       drawBitmap(i-32,ypos,&octoframe0);
-      //drawBitmap(i-57,ypos,&mobframe0);
+      drawBitmap(i-57,ypos,&mobframe0);
       break;
       case 1:
       drawBitmap(i-16,ypos,&linkframe0);
       drawBitmap(i-32,ypos,&octoframe0);
-      //drawBitmap(i-57,ypos,&mobframe0);
+      drawBitmap(i-57,ypos,&mobframe0);
       break;
       case 2:
       drawBitmap(i-16,ypos,&linkframe1);
       drawBitmap(i-32,ypos,&octoframe1);
-      //drawBitmap(i-57,ypos,&mobframe1);
+      drawBitmap(i-57,ypos,&mobframe1);
       break;
       case 3:
       drawBitmap(i-16,ypos,&linkframe1);
       drawBitmap(i-32,ypos,&octoframe1);
-      //drawBitmap(i-57,ypos,&mobframe1);
+      drawBitmap(i-57,ypos,&mobframe1);
       break;
     }
     //x,y1,y2,color
     //uncomment for moblin ani cleanup
-    //backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color); 
-    backgroundLayer.drawFastVLine(i-33,ypos,ypos+16,color);
+    backgroundLayer.drawFastVLine(i-58,ypos,ypos+16, color); 
+    //backgroundLayer.drawFastVLine(i-33,ypos,ypos+16,color);
+    backgroundLayer.swapBuffers();
+    delay(50);
+  }
+}
+
+void marioani(int ypos){
+  backgroundLayer.fillScreen({0,255,255});
+  rgb24 color;
+  color.red=0;
+  color.green=255;
+  color.blue=255;
+  for(int i=0;i<70;i++){
+    switch(i%4){
+      case 0:
+      drawBitmap(i-16,ypos,&marframe0);
+      drawBitmap(i-36,ypos,&gmbframe0);
+      break;
+      case 1:
+      drawBitmap(i-16,ypos,&marframe0);
+      drawBitmap(i-36,ypos,&gmbframe0);
+      break;
+      case 2:
+      drawBitmap(i-16,ypos,&marframe1);
+      drawBitmap(i-36,ypos,&gmbframe1);
+      break;
+      case 3:
+      drawBitmap(i-16,ypos,&marframe1);
+      drawBitmap(i-36,ypos,&gmbframe1);
+      break;
+    }
+    //x,y1,y2,color
+    backgroundLayer.drawFastVLine(i-37,ypos,ypos+16,color);
+    backgroundLayer.drawFastVLine(i-17,ypos,ypos+16,color);
     backgroundLayer.swapBuffers();
     delay(50);
   }
@@ -267,17 +380,25 @@ void loop() {
     //foodbeerani();
     //delay(6000);
 
-    lavalampani(1000);
+    //lavalampani(1000);
 
-    krisani();
-    delay(6000);
+    //krisani();
+    //delay(6000);
 
-    spaghettani();
-    delay(6000);
+    //spaghettani();
+    //delay(6000);
 
-    pacani(7);
-    delay(500);
+    //lavalampani(1000);
+    
+    //pacani(7);
+    //delay(500);
 
-    linkani(8);
+    //linkani(8);
+    //delay(500);
+
+    //marioani(8);
+    //delay(500);
+
+    digdugani(8);
     delay(500);
 }
