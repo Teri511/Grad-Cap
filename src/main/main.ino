@@ -9,6 +9,7 @@
 #include "imgs/gimpbitmap.h"
 #include "imgs/kris.c"
 #include "imgs/ub.c"
+#include "imgs/miniCSE50.c"
 #include "imgs/pacframe0.c"
 #include "imgs/pacframe1.c"
 #include "imgs/pacframe2.c"
@@ -90,6 +91,7 @@ uint8_t dirtBitmap[] = {
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, kMatrixWidth, kMatrixHeight, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(backgroundLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kBackgroundLayerOptions);
 SMARTMATRIX_ALLOCATE_SCROLLING_LAYER(scrollingLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kScrollingLayerOptions);
+SMARTMATRIX_ALLOCATE_SCROLLING_LAYER(scrollingLayer2, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kScrollingLayerOptions);
 SMARTMATRIX_ALLOCATE_INDEXED_LAYER(indexedLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kIndexedLayerOptions);
 
 const int defaultBrightness = 100*(255/100);    // full brightness
@@ -131,6 +133,7 @@ void setup() {
 
   matrix.addLayer(&backgroundLayer); 
   matrix.addLayer(&scrollingLayer); 
+  matrix.addLayer(&scrollingLayer2);
   matrix.addLayer(&indexedLayer); 
   matrix.begin();
 
@@ -172,14 +175,48 @@ void spaghettani(){
 }
 
 void ubani(){
-  drawBitmap(0,0,&ub);
-  backgroundLayer.swapBuffers();
+  //init the scrolling text
   scrollingLayer.setColor({0x00, 0x00, 0xff});
-  scrollingLayer.setOffsetFromTop(17);
+  scrollingLayer.setOffsetFromTop(25);
   scrollingLayer.setMode(wrapForward);
-  scrollingLayer.setSpeed(40);
-  scrollingLayer.setFont(font6x10);
-  scrollingLayer.start("Stop Taking My Money!!!", 1); 
+  scrollingLayer.setSpeed(10);
+  scrollingLayer.setFont(font5x7);
+  scrollingLayer2.setColor({0x00, 0x00, 0xff});
+  scrollingLayer2.setOffsetFromTop(1);
+  scrollingLayer2.setMode(wrapForward);
+  scrollingLayer2.setSpeed(10);
+  scrollingLayer2.setFont(font5x7);
+  
+  //add delays to taste
+  //drawBitmap(0,7,&cseatub);
+  drawBitmap(0,7,&ub);
+  backgroundLayer.swapBuffers();
+  //pause for 2 minutes
+  delay(120000);
+  //scroll out the ub and scroll in the cse logo
+  for(int i=0;i<33;i++){
+    drawBitmap(0-i,7,&ub);
+    drawBitmap(32-i,7,&miniCSE50);
+    backgroundLayer.swapBuffers();
+    delay(100);
+  }
+  
+  scrollingLayer2.start(" Computer", 1);
+  scrollingLayer.start("Engineering", 1);
+
+  //pause for 2 minutes
+  delay(120000);
+
+  for(int i=0;i<33;i++){
+    drawBitmap(0-i,7,&miniCSE50);
+    drawBitmap(32-i,7,&ub);
+    backgroundLayer.swapBuffers();
+    delay(100);
+  }
+
+  scrollingLayer2.start(" Computer", 1);
+  scrollingLayer.start("Engineering", 1);
+  
 }
 
 void foodbeerani(){
@@ -414,57 +451,16 @@ void lavalampani(int total_runs){
 
 void loop() {
 
-    // clear screen
-    //backgroundLayer.fillScreen(defaultBackgroundColor);
-    //backgroundLayer.swapBuffers();
-
     //ubani();
-    //delay(6000);
+    //delay(12000);
+    //ubani();
+    //delay(12000);
+    //ubani();
+    //delay(12000);
 
-    //foodbeerani();
-    //delay(6000);
+    //6000 ~= 1.5 minutes
+    //lavalampani(24000);
 
-    //lavalampani(1000);
-    
-    drawBitmap(0,0,&cseatub);
-    backgroundLayer.swapBuffers();
-    delay(3000);
-
-    //krisani();
-    //delay(6000);
-
-    drawBitmap(0,0,&cseatub);
-    backgroundLayer.swapBuffers();
-    delay(3000);
-
-    spaghettani();
-    delay(6000);
-
-    drawBitmap(0,0,&cseatub);
-    backgroundLayer.swapBuffers();
-    delay(3000);
-    
-    pacani(7);
-    delay(500);
-
-    drawBitmap(0,0,&cseatub);
-    backgroundLayer.swapBuffers();
-    delay(3000);
-
-    linkani(8);
-    //linkani(8);
-    //delay(500);
-
-    //marioani(8);
-    //delay(500);
-
-    digdugani(8);
-    delay(500);
-    
-    drawBitmap(0,0,&cseatub);
-    backgroundLayer.swapBuffers();
-    delay(3000);
-    
-    pokemon();
-    delay(500);
+    marioani();
+    pacmanani();
 }
