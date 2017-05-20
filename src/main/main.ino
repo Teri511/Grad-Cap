@@ -150,6 +150,11 @@ void setup() {
   scrollingLayer.setFont(font6x10);
   scrollingLayer.start("Hullo???", 1); 
   delay(3000);
+  krisani();
+  delay(6000);
+  spaghettani();
+  delay(6000);
+  backgroundLayer.fillScreen({0,0,0});
 }
 
 void krisani(){
@@ -166,7 +171,7 @@ void krisani(){
 void spaghettani(){
   drawBitmap(0,0,&spaghett);
   backgroundLayer.swapBuffers();
-  scrollingLayer.setColor({0xff, 0xff, 0xff});
+  scrollingLayer.setColor({0xaa, 0xaa, 0xaa});
   scrollingLayer.setMode(wrapForward);
   scrollingLayer.setOffsetFromTop(11);
   scrollingLayer.setSpeed(40);
@@ -192,7 +197,7 @@ void ubani(){
   drawBitmap(0,7,&ub);
   backgroundLayer.swapBuffers();
   //pause for 2 minutes
-  delay(120000);
+  delay(60000);
   //scroll out the ub and scroll in the cse logo
   for(int i=0;i<33;i++){
     drawBitmap(0-i,7,&ub);
@@ -205,7 +210,7 @@ void ubani(){
   scrollingLayer.start("Engineering", 1);
 
   //pause for 2 minutes
-  delay(120000);
+  delay(60000);
 
   for(int i=0;i<33;i++){
     drawBitmap(0-i,7,&miniCSE50);
@@ -451,16 +456,26 @@ void lavalampani(int total_runs){
 
 void loop() {
 
-    //ubani();
-    //delay(12000);
-    //ubani();
-    //delay(12000);
-    //ubani();
-    //delay(12000);
+    ubani();
+    delay(6000);
 
     //6000 ~= 1.5 minutes
-    //lavalampani(24000);
+    lavalampani(24000);
 
-    marioani();
-    pacmanani();
+    digdugani(8);
+    delay(500);
+
+    pokemon();
+    delay(500);
+  
+    marioani(8);
+    delay(500);
+
+    pacani(7);
+    delay(500);
+
+    linkani(8);
+    delay(500);
+
+    lavalampani(24000);
 }
