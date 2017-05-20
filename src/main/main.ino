@@ -137,7 +137,7 @@ void setup() {
   matrix.addLayer(&indexedLayer); 
   matrix.begin();
 
-  matrix.setBrightness(defaultBrightness/4);
+  matrix.setBrightness(defaultBrightness/2);
 
   scrollingLayer.setOffsetFromTop(defaultScrollOffset);
 
@@ -431,6 +431,8 @@ void marioani(int ypos){
 
 void lavalampani(int total_runs){
 
+    matrix.setBrightness(defaultBrightness);
+
       for(int runs=0; runs < total_runs; runs++){
     rgb24 *buffer = backgroundLayer.backBuffer();
 
@@ -450,32 +452,36 @@ void lavalampani(int total_runs){
     ihue+=1;
     backgroundLayer.swapBuffers(false);
   }
+  matrix.setBrightness(defaultBrightness/2);
   backgroundLayer.fillScreen({0,0,0}); 
   backgroundLayer.swapBuffers();
 }
 
 void loop() {
 
+    backgroundLayer.fillScreen({0,0,0}); 
+    backgroundLayer.swapBuffers();
+    delay(1000);
     ubani();
-    delay(6000);
+    delay(20000);
 
     //6000 ~= 1.5 minutes
-    lavalampani(24000);
+    lavalampani(4500);
 
-    digdugani(8);
-    delay(500);
+    //digdugani(8);
+    //delay(500);
 
-    pokemon();
-    delay(500);
+    //pokemon();
+    //delay(500);
   
-    marioani(8);
-    delay(500);
+    //marioani(8);
+    //delay(500);
 
-    pacani(7);
-    delay(500);
+    //pacani(7);
+    //delay(500);
 
     linkani(8);
     delay(500);
 
-    lavalampani(24000);
+    lavalampani(4500);
 }
